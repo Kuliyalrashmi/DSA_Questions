@@ -1,5 +1,5 @@
 /*Q1 Leetcode-2256. Minimum Average Difference*/
-/*Approach 1  */
+/*Approach 1 */
 int minimumAverageDifference(vector<int>& nums) {
         int min_diff=INT_MAX,ans=-1;
         long long  sum=0;
