@@ -30,8 +30,6 @@ void setZeroes(vector<vector<int>>& matrix) {
   Space Complexity=O(m+n)
 */
 
-
-
 /* Approach-2* Using a col variable */
  void setZeroes(vector<vector<int>>& matrix) {
         int m=matrix.size(),n=matrix[0].size();
