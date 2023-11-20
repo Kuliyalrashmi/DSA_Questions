@@ -59,3 +59,43 @@ public:
        return num;
     }
 };
+
+
+/* Recursive Solution*/
+
+long long solve(string s,int sign,int i,long long ans)
+{
+    if((sign*ans)>=INT_MAX)
+    {
+        return INT_MAX;
+    }
+    if((sign*ans)<=INT_MIN)
+    {
+        return INT_MIN;
+    }
+    if(s[i]==' '|| !isdigit(s[i]))
+    {
+        return ans*sign;
+    }
+    int no=s[i]-'0';
+    return solve(s,sign,i+1,ans*10+no);
+}
+int createAtoi(string s) {
+    int n=s.size(),sign=1,i=0;
+    long long ans=0;
+    while(i<n&&s[i]==' ')
+    {
+        i++;
+    }
+    if(s[i]=='-')
+    {
+        sign=-1;
+        i++;
+    }
+    else if(s[i]=='+')
+    {
+        sign=1;
+        i++;
+    }
+    return solve(s,sign,i,ans);
+}
