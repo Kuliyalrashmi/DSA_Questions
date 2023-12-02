@@ -1,4 +1,6 @@
-/*
+/*   If the null nodes between two nodes should be counted in width of binary tree
+
+
 Leetcode Question no 662 MAximum Width Of a Binary Tree
 Given the root of a binary tree, return the maximum width of the given tree.
 The maximum width of a tree is the maximum width among all levels.
@@ -59,3 +61,59 @@ public:
         return ans;
     }
 };
+
+
+
+/* 
+Approach 2 
+If null nodes bwtween 2 nodes are not cunted in width of Binary Tree 
+*/
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) {
+            this->val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#include<bits/stdc++.h>
+int getMaxWidth(TreeNode<int> *root)
+{
+    int count=0;
+    if(!root)
+    {
+        return 0;
+    }
+    queue<TreeNode<int>*>q;
+    q.push(root);
+    while(!q.empty())
+    {
+        int size=q.size();
+        count=max(count,size);
+        for(int i=0;i<size;i++)
+        {
+            TreeNode<int>*curr=q.front();
+            q.pop();
+            if(curr->left)
+            {
+                q.push(curr->left);
+            }
+            if(curr->right)
+            {
+                q.push(curr->right);
+            }
+        }
+    }
+    return count;
+}
