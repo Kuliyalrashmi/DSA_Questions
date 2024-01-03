@@ -1,4 +1,4 @@
-/*  2-Jan-2023
+/*  2-Jan-2024
 Leetcode Question no 2610  Convert An Array Into 2D Array With Conditions
 
 You are given an integer array nums. You need to create a 2D array from nums satisfying the following conditions:
