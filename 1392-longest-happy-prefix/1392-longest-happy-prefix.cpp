@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string longestPrefix(string s) {
+        int n=s.size();
+        vector<int>LPS(n,0);
+        int i=1,length=0;
+        while(i<n)
+        {
+            if(s[i]==s[length])
+            {
+                length++;
+                LPS[i]=length;
+                i++;
+            }
+            else
+            {
+                if(length!=0)
+                {
+                    length=LPS[length-1];
+                }
+                else
+                {
+                    LPS[i]=0;
+                    i++;
+                }
+            }
+        }
+        return s.substr(0,length);
+    }
+};
