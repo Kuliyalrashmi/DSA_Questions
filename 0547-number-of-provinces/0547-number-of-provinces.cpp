@@ -1,40 +1,57 @@
 class Solution {
 public:
-    void dfs(vector<int>&visited,int src,vector<int>list[])
+    int find(int u,vector<int>&parent)
     {
-        visited[src]=1;
-        for(auto neighbour:list[src])
+        if(u==parent[u])
         {
-            if(!visited[neighbour])
-            {
-                dfs(visited,neighbour,list);
-            }
+            return u;
+        }
+        return parent[u]=find(parent[u],parent);
+    }
+    void unions(int u,int v,vector<int>&parent,vector<int>&rank)
+    {
+        u=find(u,parent);
+        v=find(v,parent);
+        if(rank[u]<rank[v])
+        {
+            parent[u]=v;
+        }
+        else if(rank[v]<rank[u])
+        {
+            parent[v]=u;
+        }
+        else
+        {
+            parent[v]=u;
+            rank[u]++;
         }
     }
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n=isConnected.size();
-        vector<int>list[n];
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<n;j++)
-            {
-                if(isConnected[i][j]==1&&i!=j)
-                {
-                    list[i].push_back(j);
-                    list[j].push_back(i);
-                }
-            }
-        }
-        int provinces=0;
-        vector<int>visited(n,0);
-        for(int i=0;i<n;i++)
-        {
-            if(visited[i]!=1)
-            {
-                provinces++;
-                dfs(visited,i,list);
-            }
-        }
-        return provinces;
+       int n=isConnected.size();
+       vector<int>parent(n);
+       vector<int>rank(n,0);
+       for(int i=0;i<n;i++)
+       {
+           parent[i]=i;
+       }
+       for(int i=0;i<n;i++)
+       {
+           for(int j=i+1;j<n;j++)
+           {
+               if(isConnected[i][j]==1)
+               {
+                   unions(i,j,parent,rank);
+               }
+           }
+       } 
+       int provinces=0;
+       for(int i=0;i<n;i++)
+       {
+           if(parent[i]==i)
+           {
+               provinces++;
+           }
+       }
+       return provinces; 
     }
 };
