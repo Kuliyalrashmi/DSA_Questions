@@ -5,19 +5,19 @@ public:
     }
     struct trie
     {
-        trie *child[26];
+        trie*child[26];
         bool isEnd=false;
     };
-    trie *getNode()
+    trie *getnode()
     {
-        trie*temp=new trie();
+        trie *temp=new trie();
         for(int i=0;i<26;i++)
         {
             temp->child[i]=NULL;
         }
         return temp;
     }
-    trie* root=getNode();
+    trie *root=getnode();
     void insert(string word) {
         trie*temp=root;
         for(int i=0;i<word.size();i++)
