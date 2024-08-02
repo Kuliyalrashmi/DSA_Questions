@@ -3,11 +3,6 @@ public:
     int minSwaps(vector<int>& nums) {
         int n=nums.size();
         int ones=0;
-        vector<int>temp(2*n);
-        for(int i=0;i<2*n;i++)
-        {
-            temp[i]=nums[i%n];
-        }
         for(auto it:nums)
         {
             if(it==1)
@@ -19,13 +14,13 @@ public:
         int swaps=0;
         while(end<2*n)
         {
-            if(temp[end]==1)
+            if(nums[end%n]==1)
             {
                 curr_ones++;
             }
             if(end-start+1>ones)
             {
-                curr_ones-=temp[start];
+                curr_ones-=nums[start%n];
                 start++;
             }
             swaps=max(swaps,curr_ones);
