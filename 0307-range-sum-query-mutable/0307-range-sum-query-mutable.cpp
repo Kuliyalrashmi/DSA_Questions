@@ -1,26 +1,26 @@
 class NumArray {
+public:
     vector<int>arr,segment;
     int n;
-public:
-    void build(int left,int right,int index)
+    void build(int start,int end,int index)
     {
-        if(left>=right)
+        if(start>=end)
         {
-            segment[index]=arr[left];
+            segment[index]=arr[start];
             return;
         }
-        int mid=left+(right-left)/2;
-        build(left,mid,2*index+1);
-        build(mid+1,right,2*index+2);
+        int mid=start+(end-start)/2;
+        build(start,mid,2*index+1);
+        build(mid+1,end,2*index+2);
         segment[index]=segment[2*index+1]+segment[2*index+2];
     }
     NumArray(vector<int>& nums) {
-       arr=nums;
-       n=nums.size();
+        n=nums.size();
+        arr=nums;
         segment.resize(4*n);
         build(0,n-1,0);
     }
-    void update1(int start,int end,int index,int updated_ind,int updated_val)
+    void update1(int start,int end,int index,int updated_index,int updated_val)
     {
         if(start==end)
         {
@@ -28,13 +28,13 @@ public:
             return;
         }
         int mid=start+(end-start)/2;
-        if(updated_ind<=mid)
+        if(updated_index<=mid)
         {
-            update1(start,mid,2*index+1,updated_ind,updated_val);
+            update1(start,mid,2*index+1,updated_index,updated_val);
         }
         else
         {
-            update1(mid+1,end,2*index+2,updated_ind,updated_val);
+            update1(mid+1,end,2*index+2,updated_index,updated_val);
         }
         segment[index]=segment[2*index+1]+segment[2*index+2];
     }
@@ -43,21 +43,21 @@ public:
         arr[index]=val;
         update1(0,n-1,0,index,change);
     }
-    int getSum(int ql,int qr,int sl,int sr,int index)
+    int getsum(int start,int end,int query_start,int query_end,int index)
     {
-        if(ql<=sl&&qr>=sr)
+        if(query_start<=start&&query_end>=end)
         {
             return segment[index];
         }
-        if(qr<sl||ql>sr)
+        if(query_start>end||query_end<start)
         {
             return 0;
         }
-        int mid=sl+(sr-sl)/2;
-        return getSum(ql,qr,sl,mid,2*index+1)+getSum(ql,qr,mid+1,sr,2*index+2);
+        int mid=start+(end-start)/2;
+        return getsum(start,mid,query_start,query_end,2*index+1)+getsum(mid+1,end,query_start,query_end,2*index+2);
     }
     int sumRange(int left, int right) {
-        return getSum(left,right,0,n-1,0);
+        return getsum(0,n-1,left,right,0);
     }
 };
 
