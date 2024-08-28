@@ -1,43 +1,44 @@
 class Solution {
 public:
-    void bfs(int i,int j,vector<vector<char>>&grid)
+    void bfs(int row,int col,vector<vector<int>>&visited,vector<vector<char>>&grid)
     {
-        grid[i][j]='@';
+        visited[row][col]=1;
         queue<pair<int,int>>pq;
-        pq.push({i,j});
+        pq.push({row,col});
         while(!pq.empty())
         {
-            int x=pq.front().first;
-            int y=pq.front().second;
+            int r=pq.front().first;
+            int c=pq.front().second;
             pq.pop();
-            int del_row[4]={-1,1,0,0};
-            int del_col[4]={0,0,-1,1};
+            int del_row[]={-1,0,1,0};
+            int del_col[]={0,1,0,-1};
             for(int i=0;i<4;i++)
             {
-                int nx=x+del_row[i];
-                int ny=y+del_col[i];
-                if(nx>=0&&nx<grid.size()&&ny>=0&&ny<grid[0].size()&&grid[nx][ny]=='1')
+                int n_r=r+del_row[i];
+                int n_c=c+del_col[i];
+                if(n_r>=0&&n_r<grid.size()&&n_c>=0&&n_c<grid[0].size()&&!visited[n_r][n_c]&&grid[n_r][n_c]=='1')
                 {
-                    pq.push({nx,ny});
-                    grid[nx][ny]='@';
+                    pq.push({n_r,n_c});
+                    visited[n_r][n_c]=1;
                 }
             }
         }
     }
     int numIslands(vector<vector<char>>& grid) {
         int m=grid.size(),n=grid[0].size();
-        int ans=0;
+        vector<vector<int>>visited(m,vector<int>(n,0));
+        int count=0;
         for(int i=0;i<m;i++)
         {
             for(int j=0;j<n;j++)
             {
-                if(grid[i][j]=='1')
+                if(!visited[i][j]&&grid[i][j]=='1')
                 {
-                    ans++;
-                    bfs(i,j,grid);
+                    bfs(i,j,visited,grid);
+                    count++;
                 }
             }
         }
-        return ans;
+        return count;
     }
 };
