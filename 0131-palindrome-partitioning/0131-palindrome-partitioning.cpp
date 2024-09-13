@@ -1,22 +1,19 @@
 class Solution {
 public:
-    bool check(string s,int start,int end)
+    bool checkPalindrome(string &s,int start,int end)
     {
-        while(start<end)
+        while(start<=end)
         {
-            if(s[start]==s[end])
-            {
-                start++;
-                end--;
-            }
-            else
+            if(s[start]!=s[end])
             {
                 return false;
             }
+            start++;
+            end--;
         }
         return true;
     }
-    void solve(string s,vector<string>temp,vector<vector<string>>&ans,int index)
+    void solve(string &s,vector<string>temp,vector<vector<string>>&ans,int index)
     {
         if(index==s.size())
         {
@@ -25,7 +22,7 @@ public:
         }
         for(int i=index;i<s.size();i++)
         {
-            if(check(s,index,i))
+            if(checkPalindrome(s,index,i))
             {
                 temp.push_back(s.substr(index,i-index+1));
                 solve(s,temp,ans,i+1);
@@ -34,8 +31,8 @@ public:
         }
     }
     vector<vector<string>> partition(string s) {
-        vector<string>temp;
         vector<vector<string>>ans;
+        vector<string>temp;
         solve(s,temp,ans,0);
         return ans;
     }
