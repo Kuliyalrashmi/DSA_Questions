@@ -1,38 +1,35 @@
 class Solution {
 public:
-    int solve(vector<int>&coins,int index,int target,vector<vector<int>>&dp)
+    int solve(int index,vector<int>&coins,int amount,vector<vector<int>>&dp)
     {
-        if(index>=coins.size()||target<=0)
+        if(amount<=0||index>=coins.size())
         {
-            if(target==0)
+            if(amount==0)
             {
                 return 0;
             }
             return INT_MAX-1;
         }
-        if(dp[index][target]!=-1)
+        if(dp[index][amount]!=-1)
         {
-            return dp[index][target];
+            return dp[index][amount];
         }
-        int temp=-1;
-        if(coins[index]>target)
+        if(coins[index]>amount)
         {
-            int exclude=0+solve(coins,index+1,target,dp);
-            dp[index][target]=temp=exclude;
+            dp[index][amount]=0+solve(index+1,coins,amount,dp);
         }
         else
         {
-            int include=1+solve(coins,index,target-coins[index],dp);
-            int exclude=0+solve(coins,index+1,target,dp);
-            dp[index][target]=temp=min(include,exclude);
+            int include=1+solve(index,coins,amount-coins[index],dp);
+            int exclude=0+solve(index+1,coins,amount,dp);
+            dp[index][amount]=min(include,exclude);
         }
-        return dp[index][target]=temp;
+        return dp[index][amount];
     }
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
-        int ans=0;
         vector<vector<int>>dp(n+1,vector<int>(amount+1,-1));
-        ans=solve(coins,0,amount,dp);
+        int ans=solve(0,coins,amount,dp);
         if(ans==INT_MAX-1)
         {
             return -1;
