@@ -1,33 +1,20 @@
 class Solution {
 public:
-    int solve(vector<vector<char>>&matrix,int i,int j,int &squares,vector<vector<int>>&dp)
-    {
-        if(i>=matrix.size()||j>=matrix[0].size())
-        {
-            return 0;
-        }
-        if(dp[i][j]!=-1)
-        {
-            return dp[i][j];
-        }
-        int right=solve(matrix,i,j+1,squares,dp);
-        int diagonal=solve(matrix,i+1,j+1,squares,dp);
-        int down=solve(matrix,i+1,j,squares,dp);
-        if(matrix[i][j]=='1')
-        {
-            dp[i][j]=1+min(right,min(diagonal,down));
-            squares=max(squares,dp[i][j]);
-            return dp[i][j];
-        }
-        else
-        {
-            return dp[i][j]=0;
-        }
-    }
     int maximalSquare(vector<vector<char>>& matrix) {
+        int m=matrix.size(),n=matrix[0].size();
+        vector<vector<int>>dp(m+1,vector<int>(n+1,0));
         int squares=0;
-        vector<vector<int>>dp(matrix.size()+1,vector<int>(matrix[0].size()+1,-1));
-        solve(matrix,0,0,squares,dp);
+        for(int i=1;i<=m;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                if(matrix[i-1][j-1]=='1')
+                {
+                    dp[i][j]=1+min({dp[i-1][j],dp[i-1][j-1],dp[i][j-1]});
+                }
+                squares=max(squares,dp[i][j]);
+            }
+        }
         return squares*squares;
     }
 };
