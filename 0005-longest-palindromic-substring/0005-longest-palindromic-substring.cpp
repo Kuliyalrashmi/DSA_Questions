@@ -1,8 +1,8 @@
 class Solution {
 public:
-    int solve(string s,int start,int end)
+    int check_palindrome(string str,int start,int end)
     {
-        while(start>=0&&end<s.size()&&s[start]==s[end])
+        while(start>=0&&end<str.size()&&str[start]==str[end])
         {
             start--;
             end++;
@@ -10,18 +10,19 @@ public:
         return end-start-1;
     }
     string longestPalindrome(string s) {
-        int i=0,j=0,max_len=INT_MIN,index,n=s.size();
-        for(int i=0;i<n;i++)
+        int size=s.size();
+        int start_index=0,max_length=0,length=0;
+        for(int i=0;i<size;i++)
         {
-            int l1=solve(s,i,i);
-            int l2=solve(s,i,i+1);
-            int len=max(l1,l2);
-            if(len>max_len)
+            int len1=check_palindrome(s,i,i);
+            int len2=check_palindrome(s,i,i+1);
+            max_length=max(len1,len2);
+            if(max_length>length)
             {
-                max_len=len;
-                index=i-(len-1)/2;
+                start_index=i-(max_length-1)/2;
+                length=max_length;
             }
         }
-        return s.substr(index,max_len);
+        return s.substr(start_index,length);
     }
 };
