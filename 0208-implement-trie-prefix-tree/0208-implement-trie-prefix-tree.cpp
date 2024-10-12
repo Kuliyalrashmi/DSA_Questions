@@ -5,19 +5,19 @@ public:
     }
     struct trie
     {
-        trie*child[26];
-        bool isEnd=false;
+        trie* child[26];
+        bool isWord=false;
     };
-    trie *getnode()
+    trie*getNode()
     {
-        trie *temp=new trie();
+        trie* temp=new trie();
         for(int i=0;i<26;i++)
         {
             temp->child[i]=NULL;
         }
         return temp;
     }
-    trie *root=getnode();
+    trie* root=getNode();
     void insert(string word) {
         trie*temp=root;
         for(int i=0;i<word.size();i++)
@@ -29,11 +29,11 @@ public:
             }
             temp=temp->child[index];
         }
-        temp->isEnd=true;
+        temp->isWord=true;
     }
     
     bool search(string word) {
-        trie* temp=root;
+        trie*temp=root;
         for(int i=0;i<word.size();i++)
         {
             int index=word[i]-'a';
@@ -43,11 +43,11 @@ public:
             }
             temp=temp->child[index];
         }
-        return temp->isEnd;
+        return temp->isWord;
     }
     
     bool startsWith(string prefix) {
-        trie* temp=root;
+        trie*temp=root;
         for(int i=0;i<prefix.size();i++)
         {
             int index=prefix[i]-'a';
