@@ -1,26 +1,16 @@
 class Solution {
 public:
-    int solve(vector<int>&nums,int index,int n,vector<int>&dp)
-    {
-        if(index>n)
-        {
-            return 0;
-        }
-        if(index==n)
-        {
-            return nums[index];
-        }
-        if(dp[index]!=-1)
-        {
-            return dp[index];
-        }
-        int include=nums[index]+solve(nums,index+2,n,dp);
-        int exclude=0+solve(nums,index+1,n,dp);
-        return dp[index]=max(include,exclude);
-    }
     int rob(vector<int>& nums) {
         int n=nums.size();
-        vector<int>dp(n+1,-1);
-        return solve(nums,0,n-1,dp);
+        vector<int>dp(n,0);
+        dp[0]=nums[0];
+        for(int i=1;i<n;i++)
+        {
+            int include=nums[i];
+            include+=i>1?dp[i-2]:0;
+            int exclude=dp[i-1];
+            dp[i]=max(include,exclude);
+        }
+        return dp[n-1];
     }
 };
