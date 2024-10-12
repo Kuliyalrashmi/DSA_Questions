@@ -1,24 +1,15 @@
 class Solution {
 public:
-    vector<int>solve(int n)
-    {
-        vector<int>temp;
-        temp.push_back(1);
-        int val=1;
-        for(int i=1;i<n;i++)
-        {
-            val*=(n-i);
-            val/=i;
-            temp.push_back(val);
-        }
-        return temp;
-    }
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>ans;
-        for(int i=1;i<=numRows;i++)
+        vector<vector<int>>pascal(numRows);
+        for(int i=0;i<numRows;i++)
         {
-            ans.push_back(solve(i));
+            pascal[i]=vector<int>(i+1,1);
+            for(int j=1;j<i;j++)
+            {
+                pascal[i][j]=pascal[i-1][j]+pascal[i-1][j-1];
+            }
         }
-        return ans;
+        return pascal;
     }
 };
